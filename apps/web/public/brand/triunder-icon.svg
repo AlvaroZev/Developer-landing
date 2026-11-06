@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Triunder">
+  <!--
+    Triunder mark: inverted triangular / Pyraminx-inspired geometry with an
+    integrated balance-scales motif. Facet divisions create three primary
+    lobes meeting at a central fulcrum  equilibrium through structure.
+  -->
+  <defs>
+    <linearGradient id="triFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B1F33"/>
+      <stop offset="100%" stop-color="#1A3A52"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer inverted triangle -->
+  <path fill="url(#triFace)" d="M64 118 L10 22 H118 Z"/>
+  <!-- Facet divisions (Pyraminx-like) -->
+  <path fill="none" stroke="#C4A35A" stroke-width="2.5" stroke-linejoin="round"
+        d="M64 118 L10 22 H118 Z M64 118 L64 22 M37 52 H91 M50.5 76 H77.5"/>
+  <!-- Integrated balance beam through the mid facet -->
+  <path fill="none" stroke="#C4A35A" stroke-width="2.5" stroke-linecap="round"
+        d="M28 52 H100 M28 52 L22 64 M100 52 L106 64"/>
+  <!-- Fulcrum / central equilibrium point -->
+  <circle cx="64" cy="52" r="4" fill="#C4A35A"/>
+  <circle cx="64" cy="76" r="3" fill="#F7F5F1"/>
+</svg>

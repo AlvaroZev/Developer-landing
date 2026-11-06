@@ -1,0 +1,13 @@
+{
+  "name": "@triunder/api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "go run ./cmd/server",
+    "build": "go build -o bin/server ./cmd/server",
+    "test": "go test ./...",
+    "lint": "echo \"lint:api ok\"",
+    "typecheck": "echo \"typecheck:api n/a\"",
+    "clean": "rimraf bin"
+  }
+}

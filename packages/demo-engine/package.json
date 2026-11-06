@@ -1,0 +1,25 @@
+{
+  "name": "@triunder/demo-engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@triunder/domain": "workspace:*",
+    "@triunder/industry-registry": "workspace:*",
+    "@triunder/module-system": "workspace:*",
+    "@triunder/solution-registry": "workspace:*"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^2.1.8",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.8"
+  }
+}

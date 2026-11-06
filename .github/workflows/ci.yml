@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.24"
+
+      - name: Install JS dependencies
+        run: pnpm install
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Unit & package tests
+        run: pnpm test
+
+      - name: Backend tests
+        working-directory: apps/api
+        run: go test ./...
+
+      - name: Production web build
+        run: pnpm --filter @triunder/web build
+
+      - name: Backend build
+        working-directory: apps/api
+        run: go build -o bin/server ./cmd/server

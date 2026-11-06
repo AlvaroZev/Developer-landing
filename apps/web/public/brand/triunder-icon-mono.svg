@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Triunder">
+  <path fill="currentColor" d="M64 118 L10 22 H118 Z" opacity="0.92"/>
+  <path fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"
+        d="M64 118 L10 22 H118 Z M64 118 L64 22 M37 52 H91 M50.5 76 H77.5"/>
+  <path fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"
+        d="M28 52 H100 M28 52 L22 64 M100 52 L106 64"/>
+  <circle cx="64" cy="52" r="4" fill="#fff"/>
+  <circle cx="64" cy="76" r="3" fill="currentColor"/>
+</svg>

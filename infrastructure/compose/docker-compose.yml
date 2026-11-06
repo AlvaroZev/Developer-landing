@@ -1,0 +1,48 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-triunder}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-triunder}
+      POSTGRES_DB: ${POSTGRES_DB:-triunder}
+    ports:
+      - "5432:5432"
+    volumes:
+      - triunder_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-triunder} -d ${POSTGRES_DB:-triunder}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.api
+    environment:
+      PORT: 8080
+      DATABASE_URL: postgres://${POSTGRES_USER:-triunder}:${POSTGRES_PASSWORD:-triunder}@db:5432/${POSTGRES_DB:-triunder}?sslmode=disable
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
+      SESSION_SECRET: ${SESSION_SECRET:-dev-only-change-me}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      PUBLIC_AI_FEATURES_ENABLED: ${PUBLIC_AI_FEATURES_ENABLED:-false}
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.web
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8080}
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+
+volumes:
+  triunder_pg:
