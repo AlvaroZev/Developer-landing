@@ -1,0 +1,16 @@
+{
+  "name": "@triunder/solution-registry",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vitest": "^3.0.5"
+  }
+}

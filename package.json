@@ -1,0 +1,35 @@
+{
+  "name": "triunder",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Triunder — interactive software and engineering showroom",
+  "scripts": {
+    "dev": "pnpm --filter @triunder/web dev",
+    "dev:api": "go run ./apps/api/cmd/server",
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:coverage": "turbo run test:coverage",
+    "test:api": "go test ./apps/api/...",
+    "test:api:integration": "go test -tags=integration ./apps/api/...",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "e2e": "playwright test",
+    "catalog:check": "node scripts/check-catalog.mjs",
+    "report:tests": "node scripts/test-report.mjs",
+    "docker:up": "docker compose up --build",
+    "docker:down": "docker compose down",
+    "docker:build": "docker compose build"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
+    "@biomejs/biome": "1.9.4",
+    "@playwright/test": "^1.49.1",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@9.15.9"
+}

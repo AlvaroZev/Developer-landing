@@ -1,0 +1,84 @@
+# Local showroom. From the repository root:
+#   copy .env.example .env
+#   docker compose up --build
+# Open http://localhost:8080
+#
+# The web container is the only published app port. It proxies /api to the API.
+# APP_ENV stays development here so the example admin password is accepted.
+# Production must set APP_ENV=production, a unique SESSION_SECRET of at least
+# 32 characters, and DEV_MAIL_LOG=false. The API refuses the unsafe combination.
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: triunder
+      POSTGRES_PASSWORD: triunder
+      POSTGRES_DB: triunder
+    volumes:
+      - triunder-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U triunder -d triunder"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks:
+      - triunder
+
+  api:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/api.Dockerfile
+    restart: unless-stopped
+    env_file:
+      - path: ../../.env
+        required: false
+    environment:
+      APP_ENV: ${APP_ENV:-development}
+      API_PORT: "8080"
+      DATABASE_URL: postgres://triunder:triunder@db:5432/triunder?sslmode=disable
+      MIGRATIONS_PATH: /app/database/migrations
+      CORS_ORIGINS: http://localhost:${TRIUNDER_WEB_PORT:-8080}
+      PUBLIC_WEB_ORIGIN: http://localhost:${TRIUNDER_WEB_PORT:-8080}
+      TRUST_PROXY: "true"
+      DEV_MAIL_LOG: ${DEV_MAIL_LOG:-true}
+      SESSION_SECRET: ${SESSION_SECRET:-local-dev-session-secret-32-characters}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@triunder.local}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-Triunder-admin-1}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      GOOGLE_REDIRECT_URL: ${GOOGLE_REDIRECT_URL:-}
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/healthz"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+    networks:
+      - triunder
+
+  web:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/web.Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${TRIUNDER_WEB_PORT:-8080}:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - triunder
+
+volumes:
+  triunder-db:
+
+networks:
+  triunder:
+    driver: bridge

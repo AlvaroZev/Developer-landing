@@ -1,0 +1,17 @@
+node_modules
+dist
+coverage
+.turbo
+*.tsbuildinfo
+.env
+.env.local
+.env.*.local
+playwright-report
+test-results
+blob-report
+*.exe
+apps/api/tmp
+tmp
+.DS_Store
+*.log
+docs/test-report.json

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Illustrative KidStore fulfillment workflow</title>
+  <desc id="desc">Labeled illustration of the operational change from multi-step game logins to a centralized dashboard. Not a screenshot of the private admin system.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#07111f"/>
+      <stop offset="100%" stop-color="#123047"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#152338"/>
+      <stop offset="100%" stop-color="#0f1a2b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1440" height="900" fill="url(#bg)"/>
+  <text x="72" y="84" fill="#3dd6c6" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="3">ILLUSTRATIVE WORKFLOW · NOT A LIVE ADMIN SCREENSHOT</text>
+  <text x="72" y="148" fill="#f5f8fc" font-family="Georgia, serif" font-size="52">Fulfillment, before and after</text>
+  <text x="72" y="198" fill="#a9b7c8" font-family="Segoe UI, Arial, sans-serif" font-size="24">KidStore Perú · custom order administration</text>
+
+  <rect x="72" y="260" width="560" height="480" rx="28" fill="url(#card)" stroke="#31455f"/>
+  <text x="104" y="318" fill="#f87171" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">BEFORE</text>
+  <text x="104" y="368" fill="#e8eef8" font-family="Georgia, serif" font-size="34">Manual game sessions</text>
+  <g fill="#a9b7c8" font-family="Segoe UI, Arial, sans-serif" font-size="22">
+    <text x="104" y="430">1. Open order queue</text>
+    <text x="104" y="480">2. Log into game environment</text>
+    <text x="104" y="530">3. Perform transfer manually</text>
+    <text x="104" y="580">4. Confirm and repeat</text>
+    <text x="104" y="650">Bottleneck for concurrent fulfillers</text>
+  </g>
+
+  <path d="M680 500 H760" stroke="#3dd6c6" stroke-width="4"/>
+  <polygon points="760,486 792,500 760,514" fill="#3dd6c6"/>
+
+  <rect x="820" y="260" width="548" height="480" rx="28" fill="url(#card)" stroke="#0d9f8f"/>
+  <text x="852" y="318" fill="#3dd6c6" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">AFTER</text>
+  <text x="852" y="368" fill="#e8eef8" font-family="Georgia, serif" font-size="34">Dashboard actions</text>
+  <g fill="#a9b7c8" font-family="Segoe UI, Arial, sans-serif" font-size="22">
+    <text x="852" y="430">1. Claim order in admin panel</text>
+    <text x="852" y="480">2. Complete fulfillment action</text>
+    <text x="852" y="530">3. Update status once</text>
+    <text x="852" y="580">4. Next operator continues in parallel</text>
+    <text x="852" y="650">Centralized, concurrent workflow</text>
+  </g>
+</svg>

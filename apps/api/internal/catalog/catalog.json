@@ -1,0 +1,270 @@
+{
+  "industries": [
+    "healthcare",
+    "finance",
+    "retail",
+    "ecommerce",
+    "manufacturing",
+    "logistics",
+    "construction",
+    "real-estate",
+    "hospitality",
+    "education",
+    "agriculture",
+    "automotive",
+    "energy",
+    "professional-services",
+    "technology-saas",
+    "telecommunications",
+    "mining",
+    "food-production",
+    "tourism",
+    "custom"
+  ],
+  "solutions": [
+    "crm",
+    "erp",
+    "project-management",
+    "employee-management",
+    "customer-portals",
+    "vendor-management",
+    "business-intelligence",
+    "workflow-management",
+    "document-management",
+    "administrative-systems",
+    "ecommerce",
+    "marketplaces",
+    "point-of-sale",
+    "inventory-management",
+    "order-management",
+    "subscription-management",
+    "billing",
+    "payment-systems",
+    "product-catalogs",
+    "customer-management",
+    "warehouse-management",
+    "fleet-management",
+    "logistics-management",
+    "manufacturing-execution",
+    "maintenance-management",
+    "booking-reservations",
+    "scheduling",
+    "quotation-systems",
+    "procurement",
+    "production-planning",
+    "analytics-dashboards",
+    "business-reports",
+    "monitoring-systems",
+    "data-platforms",
+    "ai-assistants",
+    "predictive-analytics",
+    "document-processing",
+    "rag-applications",
+    "data-acquisition",
+    "decision-support",
+    "industrial-iot",
+    "smart-agriculture",
+    "industrial-automation",
+    "robotics",
+    "embedded-systems",
+    "sensor-networks",
+    "energy-monitoring",
+    "telemetry-systems",
+    "device-management",
+    "hardware-software-integration",
+    "control-systems"
+  ],
+  "compatibility": {
+    "healthcare": [
+      "crm",
+      "customer-portals",
+      "document-management",
+      "workflow-management",
+      "analytics-dashboards",
+      "scheduling",
+      "document-processing",
+      "ai-assistants"
+    ],
+    "finance": [
+      "crm",
+      "billing",
+      "payment-systems",
+      "analytics-dashboards",
+      "document-processing",
+      "decision-support",
+      "business-reports",
+      "administrative-systems",
+      "business-intelligence"
+    ],
+    "retail": [
+      "point-of-sale",
+      "ecommerce",
+      "inventory-management",
+      "order-management",
+      "crm",
+      "analytics-dashboards",
+      "marketplaces",
+      "customer-management"
+    ],
+    "ecommerce": [
+      "ecommerce",
+      "marketplaces",
+      "inventory-management",
+      "order-management",
+      "payment-systems",
+      "subscription-management",
+      "analytics-dashboards",
+      "product-catalogs"
+    ],
+    "manufacturing": [
+      "erp",
+      "manufacturing-execution",
+      "inventory-management",
+      "production-planning",
+      "maintenance-management",
+      "procurement",
+      "industrial-iot",
+      "industrial-automation",
+      "robotics",
+      "vendor-management",
+      "hardware-software-integration",
+      "data-acquisition"
+    ],
+    "logistics": [
+      "fleet-management",
+      "warehouse-management",
+      "logistics-management",
+      "scheduling",
+      "analytics-dashboards",
+      "telemetry-systems"
+    ],
+    "construction": [
+      "project-management",
+      "procurement",
+      "scheduling",
+      "quotation-systems",
+      "document-management",
+      "employee-management"
+    ],
+    "real-estate": [
+      "crm",
+      "booking-reservations",
+      "customer-portals",
+      "analytics-dashboards",
+      "document-management"
+    ],
+    "hospitality": [
+      "booking-reservations",
+      "point-of-sale",
+      "inventory-management",
+      "customer-management",
+      "analytics-dashboards"
+    ],
+    "education": [
+      "crm",
+      "customer-portals",
+      "scheduling",
+      "analytics-dashboards",
+      "document-management",
+      "administrative-systems"
+    ],
+    "agriculture": [
+      "smart-agriculture",
+      "telemetry-systems",
+      "industrial-iot",
+      "device-management",
+      "analytics-dashboards",
+      "sensor-networks"
+    ],
+    "automotive": [
+      "inventory-management",
+      "scheduling",
+      "crm",
+      "fleet-management",
+      "embedded-systems"
+    ],
+    "energy": [
+      "monitoring-systems",
+      "telemetry-systems",
+      "analytics-dashboards",
+      "industrial-iot",
+      "energy-monitoring",
+      "predictive-analytics"
+    ],
+    "professional-services": [
+      "crm",
+      "project-management",
+      "billing",
+      "scheduling",
+      "document-management",
+      "customer-portals"
+    ],
+    "technology-saas": [
+      "crm",
+      "subscription-management",
+      "billing",
+      "analytics-dashboards",
+      "customer-portals",
+      "ai-assistants",
+      "rag-applications"
+    ],
+    "telecommunications": [
+      "customer-management",
+      "billing",
+      "monitoring-systems",
+      "device-management",
+      "analytics-dashboards",
+      "sensor-networks"
+    ],
+    "mining": [
+      "maintenance-management",
+      "telemetry-systems",
+      "monitoring-systems",
+      "analytics-dashboards",
+      "industrial-iot",
+      "control-systems"
+    ],
+    "food-production": [
+      "production-planning",
+      "inventory-management",
+      "manufacturing-execution",
+      "procurement",
+      "workflow-management",
+      "data-platforms"
+    ],
+    "tourism": [
+      "booking-reservations",
+      "crm",
+      "payment-systems",
+      "customer-portals",
+      "analytics-dashboards"
+    ],
+    "custom": []
+  },
+  "featured": [
+    {
+      "industry": "healthcare",
+      "solution": "scheduling"
+    },
+    {
+      "industry": "manufacturing",
+      "solution": "manufacturing-execution"
+    },
+    {
+      "industry": "agriculture",
+      "solution": "smart-agriculture"
+    },
+    {
+      "industry": "finance",
+      "solution": "billing"
+    },
+    {
+      "industry": "logistics",
+      "solution": "fleet-management"
+    },
+    {
+      "industry": "energy",
+      "solution": "energy-monitoring"
+    }
+  ]
+}

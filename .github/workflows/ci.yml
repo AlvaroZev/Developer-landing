@@ -1,0 +1,72 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec biome check .
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+      - run: node scripts/check-catalog.mjs
+
+  api:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: triunder
+          POSTGRES_PASSWORD: triunder
+          POSTGRES_DB: triunder
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U triunder -d triunder"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.24.x"
+          cache-dependency-path: go.sum
+      - run: go test ./apps/api/...
+      - run: go test -tags=integration ./apps/api/...
+        env:
+          DATABASE_URL: postgres://triunder:triunder@localhost:5432/triunder?sslmode=disable
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.24.x"
+          cache-dependency-path: go.sum
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm e2e
+        env:
+          CI: "true"
