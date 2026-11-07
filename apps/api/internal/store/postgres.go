@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"sort"
@@ -16,6 +17,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	"triunder/apps/api/internal/auth"
+	"triunder/apps/api/migrations"
 )
 
 // Postgres is the production store. Every method uses placeholders.
@@ -47,15 +49,13 @@ func (p *Postgres) migrate(ctx context.Context, dir string) error {
 	)`); err != nil {
 		return fmt.Errorf("schema_migrations: %w", err)
 	}
-	entries, err := os.ReadDir(dir)
+	files, err := loadMigrationFiles(dir)
 	if err != nil {
-		return fmt.Errorf("migrations: %w", err)
+		return err
 	}
-	names := []string{}
-	for _, entry := range entries {
-		if !entry.IsDir() && strings.HasSuffix(entry.Name(), ".sql") {
-			names = append(names, entry.Name())
-		}
+	names := make([]string, 0, len(files))
+	for name := range files {
+		names = append(names, name)
 	}
 	sort.Strings(names)
 	for _, name := range names {
@@ -66,10 +66,7 @@ func (p *Postgres) migrate(ctx context.Context, dir string) error {
 		if exists > 0 {
 			continue
 		}
-		body, err := os.ReadFile(filepath.Join(dir, name))
-		if err != nil {
-			return err
-		}
+		body := files[name]
 		tx, err := p.pool.Begin(ctx)
 		if err != nil {
 			return err
@@ -87,6 +84,62 @@ func (p *Postgres) migrate(ctx context.Context, dir string) error {
 		}
 	}
 	return nil
+}
+
+func loadMigrationFiles(dir string) (map[string][]byte, error) {
+	candidates := []string{dir, "/app/database/migrations", "database/migrations"}
+	seen := map[string]struct{}{}
+	for _, candidate := range candidates {
+		candidate = strings.TrimSpace(candidate)
+		if candidate == "" {
+			continue
+		}
+		if _, ok := seen[candidate]; ok {
+			continue
+		}
+		seen[candidate] = struct{}{}
+		entries, err := os.ReadDir(candidate)
+		if err != nil {
+			continue
+		}
+		out := map[string][]byte{}
+		for _, entry := range entries {
+			if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".sql") {
+				continue
+			}
+			body, err := os.ReadFile(filepath.Join(candidate, entry.Name()))
+			if err != nil {
+				return nil, err
+			}
+			out[entry.Name()] = body
+		}
+		if len(out) > 0 {
+			return out, nil
+		}
+	}
+	return loadEmbeddedMigrations()
+}
+
+func loadEmbeddedMigrations() (map[string][]byte, error) {
+	entries, err := fs.ReadDir(migrations.Files, ".")
+	if err != nil {
+		return nil, fmt.Errorf("migrations: %w", err)
+	}
+	out := map[string][]byte{}
+	for _, entry := range entries {
+		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".sql") {
+			continue
+		}
+		body, err := migrations.Files.ReadFile(entry.Name())
+		if err != nil {
+			return nil, err
+		}
+		out[entry.Name()] = body
+	}
+	if len(out) == 0 {
+		return nil, fmt.Errorf("migrations: no SQL files found on disk or embedded")
+	}
+	return out, nil
 }
 
 func conflict(err error) error {
