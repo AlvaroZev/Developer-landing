@@ -1,0 +1,14 @@
+# Used by Railway / Nixpacks when no Dockerfile is selected.
+# The Go module lives at the repo root, but the only binary is under apps/api.
+# A plain `go build` fails with "no Go files in /app".
+
+[phases.setup]
+nixPkgs = ["go_1_24", "wget"]
+
+[phases.build]
+cmds = [
+  "CGO_ENABLED=0 go build -trimpath -ldflags='-w -s' -o out ./apps/api/cmd/server"
+]
+
+[start]
+cmd = "./out"

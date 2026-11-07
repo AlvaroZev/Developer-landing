@@ -39,7 +39,9 @@ copy .env.example .env
 docker compose up --build
 ```
 
-Open `http://localhost:8080`. The web container proxies `/api` and `/healthz` to the API. Postgres data lives in the `triunder-db` volume. If port 8080 is already taken on your machine, set `TRIUNDER_WEB_PORT=8088` before `docker compose up`.
+Open `http://localhost:8080`. The web container proxies `/api` and `/healthz` to the API. Postgres data lives in the `triunder-db` volume.
+
+The API binary is `./apps/api/cmd/server`, not the repo root. Platforms that run a bare `go build` fail with `no Go files in /app`. Use this repo's `Dockerfile`, `infrastructure/docker/api.Dockerfile`, or `nixpacks.toml` so the build targets that package. If port 8080 is already taken on your machine, set `TRIUNDER_WEB_PORT=8088` before `docker compose up`.
 
 ```powershell
 $env:TRIUNDER_WEB_PORT="8088"
