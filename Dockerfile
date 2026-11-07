@@ -1,5 +1,5 @@
 # Single-image deploy for hosts that only build /Dockerfile and expose one port.
-# Publishes the SPA on :8080 and proxies /api + /healthz to the API inside the container.
+# nginx listens on PORT (default 8080). The API always binds 127.0.0.1:8090 inside.
 # For the full local stack (separate web/api/db): docker compose up --build
 
 FROM golang:1.24-alpine AS api-build
@@ -20,16 +20,17 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm --filter @triunder/web build
 
 FROM nginx:1.27-alpine
-RUN apk add --no-cache ca-certificates wget
+RUN apk add --no-cache ca-certificates wget gettext
 COPY --from=api-build /out/triunder-api /app/triunder-api
 COPY database/migrations /app/database/migrations
 COPY --from=web-build /src/apps/web/dist /usr/share/nginx/html
-COPY infrastructure/docker/nginx.single.conf /etc/nginx/conf.d/default.conf
+COPY infrastructure/docker/nginx.single.conf /etc/nginx/templates/default.conf.template
 COPY infrastructure/docker/entrypoint-single.sh /entrypoint-single.sh
 RUN chmod +x /entrypoint-single.sh \
-  && sed -i 's/\r$//' /entrypoint-single.sh
+  && sed -i 's/\r$//' /entrypoint-single.sh \
+  && rm -f /etc/nginx/conf.d/default.conf
 ENV MIGRATIONS_PATH=/app/database/migrations
-ENV API_PORT=8090
+ENV PORT=8080
 EXPOSE 8080
 HEALTHCHECK --interval=10s --timeout=3s --retries=10 \
   CMD wget -qO- http://127.0.0.1:8080/ >/dev/null || exit 1

@@ -1,9 +1,15 @@
 #!/bin/sh
 set -eu
 
-# API listens privately; nginx publishes 8080 with the SPA + /api proxy.
-export API_PORT="${API_PORT:-8090}"
+# Hosts often set PORT=8080 and/or API_PORT=8080 for the public process.
+# Nginx must own that public port. The Go API always stays on loopback :8090.
+PUBLIC_PORT="${PORT:-8080}"
+export LISTEN_PORT="$PUBLIC_PORT"
+export API_PORT=8090
 export MIGRATIONS_PATH="${MIGRATIONS_PATH:-/app/database/migrations}"
+
+envsubst '${LISTEN_PORT}' < /etc/nginx/templates/default.conf.template \
+  > /etc/nginx/conf.d/default.conf
 
 /app/triunder-api &
 api_pid=$!
